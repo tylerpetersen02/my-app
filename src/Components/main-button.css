@@ -1,0 +1,18 @@
+.main-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 8vh;
+  background-color: #ef476f;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  margin-bottom: 20px;
+  font-size: x-large;
+  font-weight: 600;
+  border-right: 4px solid #06d6a0;
+  border-bottom: 4px solid #06d6a0;
+  border-bottom-right-radius: 0px;
+  text-decoration: none;
+}

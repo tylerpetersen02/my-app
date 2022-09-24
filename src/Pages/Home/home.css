@@ -1,0 +1,15 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.main-button-link {
+  width: 75%;
+  height: 8vh;
+  border: none;
+  margin-bottom: 20px;
+  text-decoration: none;
+}

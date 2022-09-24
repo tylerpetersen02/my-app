@@ -1,38 +1,132 @@
 .App {
   text-align: center;
+  background-color: #073b4c;
+  min-height: 100vh;
+  font-family: "Ubuntu", sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.App-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100vh;
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  display: flex;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  align-content: flex-start;
+  justify-content: center;
+}
+
+h1 {
+  color: #06d6a0;
+  font-size: 3.6em;
+  position: absolute;
+  top: 0;
+  margin: 30px 0px 20px 0px;
+}
+
+h2 {
+  color: #06d6a0;
+  font-size: 3em;
+  margin: 20px 0px 15px 0px;
+}
+
+h3 {
+  color: #06d6a0;
+  font-size: 1.6em;
+  margin: 20px 0px 10px 0px;
+}
+
+.hr-scorebox {
+  width: 80%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.title-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 15vh;
+  max-height: fit-content;
+  width: 100%;
+  overflow: auto;
+}
+
+.title-container-large {
+  display: flex;
+  justify-content: center;
+  min-height: 25vh;
+  width: 100%;
+}
+
+.content-container {
+  display: flex;
+  min-height: 60vh;
+  max-height: 75vh;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  margin: 0px 20px;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-start;
+  max-height: 10vh;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+.back-home-button {
+  min-height: 5vh;
+  width: 15%;
+  margin: 20px;
+  background-color: #ffd166;
+  border: none;
+  border-radius: 3px;
+  border-right: 3px solid #ef476f;
+  border-bottom: 3px solid #ef476f;
+}
+
+.game-score-total-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 20vh;
+  width: 75%;
+  background-color: #ffd166;
+  border-radius: 5px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
+  background-size: 2px 80%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border-right: 3px solid #ef476f;
+  border-bottom: 3px solid #ef476f;
+}
+
+.game-score-total-both {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: flex-start;
+  width: 50%;
+  height: 80%;
+  padding: 10px;
+  font-size: 1.8em;
+  color: #073b4c;
+  font-weight: 600;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.total-score {
+  font-size: 2em;
+  color: #073b4c;
+  font-weight: 700;
 }
