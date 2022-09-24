@@ -16,3 +16,8 @@
   border-bottom-right-radius: 0px;
   text-decoration: none;
 }
+
+.border-yellow {
+  border-right: 4px solid #ffd166;
+  border-bottom: 4px solid #ffd166;
+}

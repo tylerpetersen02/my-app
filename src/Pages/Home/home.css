@@ -12,4 +12,5 @@
   border: none;
   margin-bottom: 20px;
   text-decoration: none;
+  z-index: 1;
 }

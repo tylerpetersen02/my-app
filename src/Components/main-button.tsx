@@ -10,10 +10,13 @@ import { CgCardSpades } from "react-icons/cg";
 
 type MainAppButtonProps = {
   buttonText: String;
+  buttonBorder: String;
 };
 
 const MainButton = (props: MainAppButtonProps) => {
-  const { buttonText } = props;
+  const { buttonText, buttonBorder } = props;
+  const borderColor =
+    buttonBorder === "yellow" ? "main-button border-yellow" : "main-button";
   let icon;
 
   switch (buttonText) {
@@ -60,7 +63,7 @@ const MainButton = (props: MainAppButtonProps) => {
       );
   }
   return (
-    <button className="main-button">
+    <button className={borderColor}>
       {icon}
       {buttonText}
     </button>

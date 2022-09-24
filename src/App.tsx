@@ -5,7 +5,7 @@ import GolfMain from "./Pages/Golf/golf-main";
 import GolfNewGame from "./Pages/Golf/golf-new-game";
 import GolfPreviousGames from "./Pages/Golf/golf-previous-games";
 import BlokusMain from "./Pages/Blokus/blokus-main";
-import BlokusNewGame from "./Pages/Blokus/blokus-previous-games";
+import BlokusNewGame from "./Pages/Blokus/blokus-new-game";
 import BlokusPreviousGames from "./Pages/Blokus/blokus-previous-games";
 import PatchworkMain from "./Pages/Patchwork/patchwork-main";
 import PatchworkNewGame from "./Pages/Patchwork/patchwork-new-game";

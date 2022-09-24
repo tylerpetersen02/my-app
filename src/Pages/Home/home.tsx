@@ -12,22 +12,25 @@ const Home = () => {
       </div>
       <div className="content-container">
         <Link className="main-button-link" to="/golf">
-          <MainButton buttonText={"Golf"} />
+          <MainButton buttonText={"Golf"} buttonBorder={"yellow"} />
         </Link>
         <Link className="main-button-link" to="/blokus">
-          <MainButton buttonText={"Blokus"} />
+          <MainButton buttonText={"Blokus"} buttonBorder={"yellow"} />
         </Link>
         <Link className="main-button-link" to="/patchwork">
-          <MainButton buttonText={"Patchwork"} />
+          <MainButton buttonText={"Patchwork"} buttonBorder={"yellow"} />
         </Link>
         <Link className="main-button-link" to="/hive">
-          <MainButton buttonText={"Hive"} />
+          <MainButton buttonText={"Hive"} buttonBorder={"yellow"} />
         </Link>
         <Link className="main-button-link" to="/fox-in-the-forest">
-          <MainButton buttonText={"Fox In The Forest"} />
+          <MainButton
+            buttonText={"Fox In The Forest"}
+            buttonBorder={"yellow"}
+          />
         </Link>
         <Link className="main-button-link" to="/chess">
-          <MainButton buttonText={"Chess"} />
+          <MainButton buttonText={"Chess"} buttonBorder={"yellow"} />
         </Link>
       </div>
     </div>
