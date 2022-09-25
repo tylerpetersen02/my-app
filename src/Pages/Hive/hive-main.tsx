@@ -11,6 +11,7 @@ const HiveMain = () => {
       <div className="title-container">
         <h1>HIVE</h1>
       </div>
+      <h3>Total Wins</h3>
       <div className="content-container">
         <GameScoreTotal game={"Hive"} gamePath={"hive"} />
         <IconSelect icon={"Hive"} size={"large"} />

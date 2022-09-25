@@ -2,17 +2,15 @@ import React from "react";
 import "./../../App.css";
 import "./chess.css";
 import BackButton from "../../Components/back-button";
-import IconSelect from "../../Components/icon-select";
 
 const ChessPreviousGames = () => {
   return (
     <div className="App-container">
       <div className="title-container">
-        <h1>CHESS ARCHIVES</h1>
+        <h1>CHESS</h1>
       </div>
-      <div className="content-container">
-        <IconSelect icon={"Chess"} size={"large"} />
-      </div>
+      <h3>Previous Games</h3>
+      <div className="content-container"></div>
       <div className="footer">
         <BackButton />
       </div>

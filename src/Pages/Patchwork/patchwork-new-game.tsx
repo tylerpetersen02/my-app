@@ -2,19 +2,22 @@ import React from "react";
 import "./../../App.css";
 import "./patchwork.css";
 import BackButton from "../../Components/back-button";
-import IconSelect from "../../Components/icon-select";
+import Scoreboard from "../../Components/scoreboard";
+import SubmitScores from "../../Components/submit-score-button";
 
 const PatchworkNewGame = () => {
   return (
     <div className="App-container">
       <div className="title-container">
-        <h1>PATCHWORK NEW GAME</h1>
+        <h1>PATCHWORK</h1>
       </div>
+      <h3>New Game</h3>
       <div className="content-container">
-        <IconSelect icon={"Patchwork"} size={"large"} />
+        <Scoreboard game={"patchwork"} />
       </div>
-      <div className="footer">
+      <div className="footer-new-game">
         <BackButton />
+        <SubmitScores />
       </div>
     </div>
   );

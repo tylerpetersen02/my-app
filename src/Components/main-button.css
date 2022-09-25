@@ -4,20 +4,20 @@
   align-items: center;
   width: 100%;
   min-height: 8vh;
-  background-color: #ef476f;
+  background-color: #118ab2;
   border: none;
   border-radius: 5px;
   color: #fff;
   margin-bottom: 20px;
   font-size: x-large;
   font-weight: 600;
-  border-right: 4px solid #06d6a0;
-  border-bottom: 4px solid #06d6a0;
+  border-right: 4px solid #ef476f;
+  border-bottom: 4px solid #ef476f;
   border-bottom-right-radius: 0px;
   text-decoration: none;
 }
 
 .border-yellow {
-  border-right: 4px solid #ffd166;
-  border-bottom: 4px solid #ffd166;
+  border-right: 4px solid #ef476f;
+  border-bottom: 4px solid #ef476f;
 }

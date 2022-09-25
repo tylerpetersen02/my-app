@@ -2,17 +2,15 @@ import React from "react";
 import "./../../App.css";
 import "./hive.css";
 import BackButton from "../../Components/back-button";
-import IconSelect from "../../Components/icon-select";
 
 const HivePreviousGames = () => {
   return (
     <div className="App-container">
       <div className="title-container">
-        <h1>HIVE ARCHIVES</h1>
+        <h1>HIVE</h1>
       </div>
-      <div className="content-container">
-        <IconSelect icon={"Hive"} size={"large"} />
-      </div>
+      <h3>Previous Games</h3>
+      <div className="content-container"></div>
       <div className="footer">
         <BackButton />
       </div>

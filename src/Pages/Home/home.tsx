@@ -6,11 +6,11 @@ const Home = () => {
   return (
     <div className="App-container">
       <div className="title-container-large">
-        <h1>
-          GAME <br></br> NIGHT!
+        <h1 className="glow">
+          GAME <br></br> NIGHT
         </h1>
       </div>
-      <div className="content-container">
+      <div className="content-container-main">
         <Link className="main-button-link" to="/golf">
           <MainButton buttonText={"Golf"} buttonBorder={"yellow"} />
         </Link>

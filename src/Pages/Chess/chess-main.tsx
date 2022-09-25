@@ -11,6 +11,7 @@ const ChessMain = () => {
       <div className="title-container">
         <h1>CHESS</h1>
       </div>
+      <h3>Total Wins</h3>
       <div className="content-container">
         <GameScoreTotal game={"Chess"} gamePath={"chess"} />
         <IconSelect icon={"Chess"} size={"large"} />

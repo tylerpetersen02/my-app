@@ -11,6 +11,7 @@ const FoxInTheForestMain = () => {
       <div className="title-container-large">
         <h1>FOX IN THE FOREST</h1>
       </div>
+      <h3>Total Wins</h3>
       <div className="content-container">
         <GameScoreTotal
           game={"Fox In The Forest"}

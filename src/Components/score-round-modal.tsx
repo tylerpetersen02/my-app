@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./score-round-modal.css";
 
 type ScoreModalProps = {
-  handleModalScoreChange: (score: number, round: number) => void;
+  handleModalScoreChange: (score: number) => void;
   round: number;
 };
 
@@ -14,7 +14,9 @@ const ScoreRoundModal = (props: ScoreModalProps) => {
     setPlayerScore(parseFloat(e.currentTarget.value));
   };
   const closeModal = () => {
-    handleModalScoreChange(playerScore, round);
+    if (!playerScore === undefined) return;
+    if (playerScore && playerScore < -2) return;
+    handleModalScoreChange(playerScore);
   };
   return (
     <div className="score-round-modal-container">
@@ -24,7 +26,7 @@ const ScoreRoundModal = (props: ScoreModalProps) => {
           className="modal-input-box"
           type="number"
           placeholder="0"
-          value={playerScore}
+          value={undefined}
           onChange={(e) => handleChangeScore(e)}
         />
         <button className="modal-submit-button" onClick={closeModal}>

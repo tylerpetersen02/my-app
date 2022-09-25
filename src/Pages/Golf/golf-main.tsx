@@ -10,6 +10,7 @@ const GolfMain = () => {
       <div className="title-container">
         <h1>GOLF</h1>
       </div>
+      <h3>Total Wins</h3>
       <div className="content-container">
         <GameScoreTotal game={"Golf"} gamePath={"golf"} />
         <IconSelect icon={"Golf"} size={"large"} />

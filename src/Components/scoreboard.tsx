@@ -3,15 +3,20 @@ import "./../App.css";
 import "./scoreboard.css";
 import RoundScore from "./round-score";
 
-const Scoreboard = () => {
+type GameType = {
+  game: String;
+};
+
+const Scoreboard = (props: GameType) => {
+  const { game } = props;
   const [tylerRoundScores, setTylerRoundScores] = useState<number[]>([
     0, 0, 0, 0, 0, 0, 0, 0, 0,
   ]);
   const [samRoundScores, setSamRoundScores] = useState<number[]>([
     0, 0, 0, 0, 0, 0, 0, 0, 0,
   ]);
-  const [tylerTotalGolfScore, setTylerTotalGolfScore] = useState<number>(0);
-  const [samTotalGolfScore, setSamTotalGolfScore] = useState<number>(0);
+  const [tylerTotalScore, setTylerTotalScore] = useState<number>(0);
+  const [samTotalScore, setSamTotalScore] = useState<number>(0);
 
   const handleAddRoundScore = (
     player: string,
@@ -37,11 +42,10 @@ const Scoreboard = () => {
   };
 
   useEffect(() => {
-    setTylerTotalGolfScore(handlePlayerTotalScore(tylerRoundScores));
-    setSamTotalGolfScore(handlePlayerTotalScore(samRoundScores));
+    setTylerTotalScore(handlePlayerTotalScore(tylerRoundScores));
+    setSamTotalScore(handlePlayerTotalScore(samRoundScores));
   }, [tylerRoundScores, samRoundScores]);
 
-  console.log(tylerRoundScores, samRoundScores);
   return (
     <div className="scoreboard-container">
       <div className="scoreboard-names">
@@ -50,15 +54,19 @@ const Scoreboard = () => {
       <RoundScore round={1} handleAddRoundScore={handleAddRoundScore} />
       <RoundScore round={2} handleAddRoundScore={handleAddRoundScore} />
       <RoundScore round={3} handleAddRoundScore={handleAddRoundScore} />
-      <RoundScore round={4} handleAddRoundScore={handleAddRoundScore} />
-      <RoundScore round={5} handleAddRoundScore={handleAddRoundScore} />
-      <RoundScore round={6} handleAddRoundScore={handleAddRoundScore} />
-      <RoundScore round={7} handleAddRoundScore={handleAddRoundScore} />
-      <RoundScore round={8} handleAddRoundScore={handleAddRoundScore} />
-      <RoundScore round={9} handleAddRoundScore={handleAddRoundScore} />
+      {game === "golf" && (
+        <>
+          <RoundScore round={4} handleAddRoundScore={handleAddRoundScore} />
+          <RoundScore round={5} handleAddRoundScore={handleAddRoundScore} />
+          <RoundScore round={6} handleAddRoundScore={handleAddRoundScore} />
+          <RoundScore round={7} handleAddRoundScore={handleAddRoundScore} />
+          <RoundScore round={8} handleAddRoundScore={handleAddRoundScore} />
+          <RoundScore round={9} handleAddRoundScore={handleAddRoundScore} />
+        </>
+      )}
       <div className="score-total">
-        <div className="total-score-tyler">{tylerTotalGolfScore}</div>
-        <div className="total-score-sam">{samTotalGolfScore}</div>
+        <div className="total-score-tyler">{tylerTotalScore}</div>
+        <div className="total-score-sam">{samTotalScore}</div>
       </div>
     </div>
   );

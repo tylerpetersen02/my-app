@@ -18,11 +18,10 @@ const RoundScore = (props: RoundScoreFunction) => {
   const handleModal = (player: string) => {
     setModal(!modal);
     setCurrentPlayer(player);
-    console.log(currentPlayer);
   };
 
-  const handleModalScoreChange = (score: number, round: number) => {
-    console.log(currentPlayer);
+  const handleModalScoreChange = (score: number | undefined) => {
+    if (score === undefined) return;
     currentPlayer === "Tyler"
       ? setTylerRoundScore(score)
       : setSamRoundScore(score);
@@ -54,7 +53,10 @@ const RoundScore = (props: RoundScoreFunction) => {
         </div>
       </div>
       {modal && (
-        <ScoreRoundModal round={round} handleModalScoreChange={handleModalScoreChange} />
+        <ScoreRoundModal
+          round={round}
+          handleModalScoreChange={handleModalScoreChange}
+        />
       )}
     </>
   );

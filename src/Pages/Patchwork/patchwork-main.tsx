@@ -11,6 +11,7 @@ const PatchworkMain = () => {
       <div className="title-container">
         <h1>PATCHWORK</h1>
       </div>
+      <h3>Total Wins</h3>
       <div className="content-container">
         <GameScoreTotal game={"Patchwork"} gamePath={"patchwork"} />
         <IconSelect icon={"Patchwork"} size={"large"} />
