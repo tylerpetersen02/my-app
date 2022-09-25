@@ -60,7 +60,7 @@ h3 {
 .title-container-large {
   display: flex;
   justify-content: center;
-  min-height: 25vh;
+  min-height: 20vh;
   width: 100%;
 }
 

@@ -3,28 +3,16 @@ import "./../../App.css";
 import "./golf.css";
 import BackButton from "../../Components/back-button";
 import IconSelect from "../../Components/icon-select";
-import ScoreRoundModal from "../../Components/score-round-modal";
+import Scoreboard from "../../Components/scoreboard";
 
 const GolfNewGame = () => {
-  const [openScoreModal, setOpenScoreModal] = useState<Boolean>(false);
-
-  const handleScoreModal = () => {
-    setOpenScoreModal(!openScoreModal);
-  };
   return (
     <div className="App-container">
-      <div className="title-container">
+      <div className="title-container-large">
         <h1>GOLF NEW GAME</h1>
       </div>
       <div className="content-container">
-        <br></br>
-        <br></br>
-        <br></br>
-        <button onClick={() => handleScoreModal()} />
-        {openScoreModal && (
-          <ScoreRoundModal handleScoreModal={handleScoreModal} />
-        )}
-        <IconSelect icon={"Golf"} size={"large"} />
+        <Scoreboard />
       </div>
       <div className="footer">
         <BackButton />

@@ -1,0 +1,29 @@
+.round-score-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.round-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 20px;
+  color: #073b4c;
+  background-color: #ffd166;
+  border-radius: 5px;
+  border-bottom: 4px solid #ef476f;
+  border-right: 4px solid #ef476f;
+  border-bottom-right-radius: 0px;
+  font-size: small;
+}
+
+.round-scores {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  color: white;
+  margin: 5px 0px;
+  font-size: large;
+}

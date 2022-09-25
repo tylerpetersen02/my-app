@@ -6,3 +6,9 @@
   position: absolute;
   bottom: 0;
 }
+
+.button-icon-small {
+  font-size: x-large;
+  color: #fff;
+  margin-right: 10px;
+}
