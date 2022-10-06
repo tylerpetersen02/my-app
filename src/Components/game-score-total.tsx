@@ -9,19 +9,19 @@ type GameType = {
 
 const GameScoreTotal = (props: GameType) => {
   const { game, gamePath } = props;
-  const [tylerTotalGolfScore, setTylerTotalGolfScore] = useState(0);
-  const [samTotalGolfScore, setSamTotalGolfScore] = useState(0);
+  const [tylerTotalGameScore, setTylerTotalGameScore] = useState(0);
+  const [samTotalGameScore, setSamTotalGameScore] = useState(0);
   return (
     <>
       <div className="game-score-total-container">
         <div className="game-score-total-both">
           Tyler
           <hr className="hr-scorebox"></hr>
-          <span className="total-score">{tylerTotalGolfScore}</span>
+          <span className="total-score">{tylerTotalGameScore}</span>
         </div>
         <div className="game-score-total-both">
           Sam <hr className="hr-scorebox"></hr>
-          <span className="total-score">{samTotalGolfScore}</span>
+          <span className="total-score">{samTotalGameScore}</span>
         </div>
       </div>
       <Link className="main-button-link" to={`${gamePath}-new-game`}>

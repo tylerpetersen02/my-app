@@ -19,6 +19,9 @@ import FoxInTheForestPreviousGames from "./Pages/Fox_In_The_Forest/fox-in-the-fo
 import ChessMain from "./Pages/Chess/chess-main";
 import ChessNewGame from "./Pages/Chess/chess-new-game";
 import ChessPreviousGames from "./Pages/Chess/chess-previous-games";
+import YahtzeeMain from "./Pages/Yahtzee/yahtzee-main";
+import YahtzeeNewGame from "./Pages/Yahtzee/yahtzee-new-game";
+import YahtzeePreviousGames from "./Pages/Yahtzee/yahtzee-previous-games";
 
 import "./App.css";
 
@@ -69,6 +72,15 @@ const App = () => {
           <Route
             path="/chess/chess-previous-games"
             element={<ChessPreviousGames />}
+          />
+          <Route path="/yahtzee" element={<YahtzeeMain />} />
+          <Route
+            path="/yahtzee/yahtzee-new-game"
+            element={<YahtzeeNewGame />}
+          />
+          <Route
+            path="/yahtzee/yahtzee-previous-games"
+            element={<YahtzeePreviousGames />}
           />
         </Routes>
       </BrowserRouter>

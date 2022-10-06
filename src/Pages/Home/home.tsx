@@ -32,6 +32,9 @@ const Home = () => {
         <Link className="main-button-link" to="/chess">
           <MainButton buttonText={"Chess"} buttonBorder={"yellow"} />
         </Link>
+        <Link className="main-button-link" to="/yahtzee">
+          <MainButton buttonText={"Yahtzee"} buttonBorder={"yellow"} />
+        </Link>
       </div>
     </div>
   );

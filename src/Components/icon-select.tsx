@@ -7,6 +7,7 @@ import { RiBugFill } from "react-icons/ri";
 import { GiSewingString } from "react-icons/gi";
 import { TbPuzzle2 } from "react-icons/tb";
 import { CgCardSpades } from "react-icons/cg";
+import { GiRollingDiceCup } from "react-icons/gi";
 
 type IconSelectProps = {
   icon: String;
@@ -38,6 +39,9 @@ const IconSelect = (props: IconSelectProps) => {
       break;
     case "Chess":
       iconSelect = <FaChessPawn className={iconSize} />;
+      break;
+    case "Yahtzee":
+      iconSelect = <GiRollingDiceCup className={iconSize} />;
   }
   return <>{iconSelect}</>;
 };
