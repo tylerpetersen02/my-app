@@ -5,10 +5,8 @@ import MainButton from "./../../Components/main-button";
 const Home = () => {
   return (
     <div className="App-container">
-      <div className="title-container-large">
-        <h1 className="glow">
-          GAME <br></br> NIGHT
-        </h1>
+      <div className="title-container">
+        <h1 className="glow">GAME NIGHT</h1>
       </div>
       <div className="content-container-main">
         <Link className="main-button-link" to="/golf">
