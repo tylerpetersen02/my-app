@@ -9,9 +9,9 @@ const ChessNewGame = () => {
   return (
     <div className="App-container">
       <div className="title-container">
-        <h1>CHESS</h1>
+        <h1 style={{ fontSize: "2.8em"}}>CHESS</h1>
       </div>
-      <h3>New Game</h3>
+      <h3 style={{ fontSize: "1.3em", margin: "-10px 0px" }}>New Game</h3>
       <div className="content-container">
         <Scoreboard game={"chess"} />
       </div>
