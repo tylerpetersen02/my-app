@@ -8,8 +8,8 @@ import SubmitScores from "../../Components/submit-score-button";
 const GolfNewGame = () => {
   return (
     <div className="App-container">
-      <div className="title-container">
-      <h1 style={{ fontSize: "2.8em"}}>GOLF</h1>
+      <div className="title-container" style={{marginBottom: "-30px"}}>
+        <h1 style={{ fontSize: "2.8em", margin: "5px" }}>GOLF</h1>
       </div>
       <h3 style={{ fontSize: "1.3em", margin: "-10px 0px" }}>New Game</h3>
       <div className="content-container">
