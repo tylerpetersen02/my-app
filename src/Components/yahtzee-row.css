@@ -52,6 +52,14 @@
   font-weight: 700;
 }
 
+.zero-out {
+  border: none;
+  background-color: #ef476f;
+  color: #073b4c;
+  font-size: large;
+  font-weight: 700;
+}
+
 .bonus-yahtzee-container {
   font-size: small;
 }

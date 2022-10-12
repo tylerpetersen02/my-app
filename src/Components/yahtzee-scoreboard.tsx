@@ -159,8 +159,8 @@ const YahtzeeScoreboard = (props: GameType) => {
   const handleScoreChange = (
     player: string,
     row: number,
-    buttonToggle: boolean,
-    value: number
+    value: number,
+    iteration: string
   ) => {
     if (player === "Tyler") {
       switch (row) {
@@ -189,20 +189,40 @@ const YahtzeeScoreboard = (props: GameType) => {
           setTyler4OfAKind(value);
           break;
         case 13:
-          buttonToggle ? setTylerFullHouse(25) : setTylerFullHouse(false);
+          if (iteration === "incomplete") {
+            setTylerFullHouse(false);
+          } else if (iteration === "complete") {
+            setTylerFullHouse(25);
+          } else {
+            setTylerFullHouse(0);
+          }
           break;
         case 14:
-          buttonToggle
-            ? setTylerSmallStraight(30)
-            : setTylerSmallStraight(false);
+          if (iteration === "incomplete") {
+            setTylerSmallStraight(false);
+          } else if (iteration === "complete") {
+            setTylerSmallStraight(30);
+          } else {
+            setTylerSmallStraight(0);
+          }
           break;
         case 15:
-          buttonToggle
-            ? setTylerLargeStraight(40)
-            : setTylerLargeStraight(false);
+          if (iteration === "incomplete") {
+            setTylerLargeStraight(false);
+          } else if (iteration === "complete") {
+            setTylerLargeStraight(40);
+          } else {
+            setTylerLargeStraight(0);
+          }
           break;
         case 16:
-          buttonToggle ? setTylerYahtzee(50) : setTylerYahtzee(false);
+          if (iteration === "incomplete") {
+            setTylerYahtzee(false);
+          } else if (iteration === "complete") {
+            setTylerYahtzee(50);
+          } else {
+            setTylerYahtzee(0);
+          }
           break;
         case 17:
           setTylerChance(value);
@@ -234,16 +254,40 @@ const YahtzeeScoreboard = (props: GameType) => {
           setSam4OfAKind(value);
           break;
         case 13:
-          buttonToggle ? setSamFullHouse(25) : setSamFullHouse(false);
+          if (iteration === "incomplete") {
+            setSamFullHouse(false);
+          } else if (iteration === "complete") {
+            setSamFullHouse(25);
+          } else {
+            setSamFullHouse(0);
+          }
           break;
         case 14:
-          buttonToggle ? setSamSmallStraight(30) : setSamSmallStraight(false);
+          if (iteration === "incomplete") {
+            setSamSmallStraight(false);
+          } else if (iteration === "complete") {
+            setSamSmallStraight(30);
+          } else {
+            setSamSmallStraight(0);
+          }
           break;
         case 15:
-          buttonToggle ? setSamLargeStraight(40) : setSamLargeStraight(false);
+          if (iteration === "incomplete") {
+            setSamLargeStraight(false);
+          } else if (iteration === "complete") {
+            setSamLargeStraight(40);
+          } else {
+            setSamLargeStraight(0);
+          }
           break;
         case 16:
-          buttonToggle ? setSamYahtzee(50) : setSamYahtzee(false);
+          if (iteration === "incomplete") {
+            setSamYahtzee(false);
+          } else if (iteration === "complete") {
+            setSamYahtzee(50);
+          } else {
+            setSamYahtzee(0);
+          }
           break;
         case 17:
           setSamChance(value);

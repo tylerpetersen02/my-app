@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./../App.css";
 import "./yahtzee-row.css";
 import { BsCheckLg } from "react-icons/bs";
+import { GrFormClose } from "react-icons/gr";
 import YahtzeeScoreModal from "./yahtzee-score-modal";
 
 type GameType = {
@@ -14,8 +15,8 @@ type GameType = {
   handleScoreChange: (
     player: string,
     row: number,
-    buttonToggle: boolean,
-    value: number
+    value: number,
+    iteration: string
   ) => void;
   updateBonusYahtzee: (
     tylerBonusAmount: number,
@@ -25,7 +26,6 @@ type GameType = {
 
 const YahtzeeRow = (props: GameType) => {
   const {
-    game,
     row,
     rowTitle,
     rowScoring,
@@ -40,23 +40,63 @@ const YahtzeeRow = (props: GameType) => {
   const [currentPlayer, setCurrentPlayer] = useState<string>("");
   const [tylerBonusYahtzee, setTylerBonusYahtzee] = useState<number>(0);
   const [samBonusYahtzee, setSamBonusYahtzee] = useState<number>(0);
+  const [zeroOutBoxTyler, setZeroOutBoxTyler] = useState<boolean>(false);
+  const [zeroOutBoxSam, setZeroOutBoxSam] = useState<boolean>(false);
+  const nonZeroOutRows = [1, 8, 9, 10, 13, 14, 15, 16, 18, 19, 20];
+  const playerScore = currentPlayer === "Tyler" ? tylerScore : samScore;
 
   const handleModal = (player: string) => {
     setModal(!modal);
     setCurrentPlayer(player);
   };
 
-  const handleModalScoreChange = (score: number | undefined) => {
+  const handleModalScoreChange = (
+    score: number | undefined,
+    zeroOut: boolean
+  ) => {
     if (score === undefined) return;
+
+    if (nonZeroOutRows.includes(row)) zeroOut = false;
+
+    if (zeroOut === false) {
+      currentPlayer === "Tyler"
+        ? setTylerRoundScore(score)
+        : setSamRoundScore(score);
+    }
     currentPlayer === "Tyler"
-      ? setTylerRoundScore(score)
-      : setSamRoundScore(score);
+      ? setZeroOutBoxTyler(zeroOut)
+      : setZeroOutBoxSam(zeroOut);
+
     setModal(!modal);
   };
 
-  const handleButtonScoreUpdate = (player: string) => {
-    const playerScore = player === "Tyler" ? !tylerScore : !samScore;
-    handleScoreChange(player, row, playerScore, 0);
+  const handleButtonScoreUpdate = (player: string, current: string) => {
+    let iteration;
+
+    if (player === "Tyler") {
+      if (current === "incomplete") {
+        iteration = "complete";
+        setZeroOutBoxTyler(false);
+      } else if (current === "complete") {
+        iteration = "zero out";
+        setZeroOutBoxTyler(true);
+      } else {
+        iteration = "incomplete";
+        setZeroOutBoxTyler(false);
+      }
+    } else {
+      if (current === "incomplete") {
+        iteration = "complete";
+        setZeroOutBoxSam(false);
+      } else if (current === "complete") {
+        iteration = "zero out";
+        setZeroOutBoxSam(true);
+      } else {
+        iteration = "incomplete";
+        setZeroOutBoxSam(false);
+      }
+    }
+    handleScoreChange(player, row, 0, iteration);
   };
 
   const handleBonusYahtzee = (player: string) => {
@@ -86,7 +126,7 @@ const YahtzeeRow = (props: GameType) => {
       return;
     }
     const score = currentPlayer === "Tyler" ? tylerRoundScore : samRoundScore;
-    handleScoreChange(currentPlayer, row, false, score);
+    handleScoreChange(currentPlayer, row, score, "");
   }, [tylerRoundScore, samRoundScore]);
 
   return (
@@ -97,37 +137,77 @@ const YahtzeeRow = (props: GameType) => {
         <div className="yahtzee-row-player">
           <>
             {rowTitle === "UPPER" && "TYLER"}
+            {row !== 9 &&
+              row !== 13 &&
+              row !== 14 &&
+              row !== 15 &&
+              row !== 16 &&
+              zeroOutBoxTyler && (
+                <button
+                  onClick={() => handleModal("Tyler")}
+                  className="yahtzee-check-button zero-out"
+                >
+                  <GrFormClose />
+                </button>
+              )}
             {(row === 9 ||
               row === 13 ||
               row === 14 ||
               row === 15 ||
               row === 16) && (
               <>
-                {tylerScore === false && (
-                  <button
-                    onClick={() => handleButtonScoreUpdate("Tyler")}
-                    className="yahtzee-check-button"
-                  >
-                    <BsCheckLg />
-                  </button>
+                {!zeroOutBoxTyler && (
+                  <>
+                    {tylerScore === false && (
+                      <button
+                        onClick={() =>
+                          handleButtonScoreUpdate("Tyler", "incomplete")
+                        }
+                        className="yahtzee-check-button"
+                      >
+                        <BsCheckLg />
+                      </button>
+                    )}
+                    {tylerScore && (
+                      <button
+                        onClick={() =>
+                          handleButtonScoreUpdate("Tyler", "complete")
+                        }
+                        className="yahtzee-check-button complete"
+                      >
+                        {tylerScore}
+                      </button>
+                    )}
+                  </>
                 )}
-                {tylerScore && (
-                  <button
-                    onClick={() => handleButtonScoreUpdate("Tyler")}
-                    className="yahtzee-check-button complete"
-                  >
-                    {tylerScore}
-                  </button>
+                {zeroOutBoxTyler && (
+                  <>
+                    {!tylerScore && (
+                      <button
+                        onClick={() =>
+                          handleButtonScoreUpdate("Tyler", "zero out")
+                        }
+                        className="yahtzee-check-button zero-out"
+                      >
+                        <GrFormClose />
+                      </button>
+                    )}
+                  </>
                 )}
               </>
             )}
             {row !== 1 &&
+              row !== 8 &&
               row !== 9 &&
+              row !== 10 &&
               row !== 13 &&
               row !== 14 &&
               row !== 15 &&
               row !== 16 &&
-              row !== 18 && (
+              row !== 18 &&
+              row !== 19 &&
+              row !== 20 &&
+              !zeroOutBoxTyler && (
                 <div onClick={() => handleModal("Tyler")}>{tylerScore}</div>
               )}
             {row !== 1 &&
@@ -136,7 +216,17 @@ const YahtzeeRow = (props: GameType) => {
               row !== 14 &&
               row !== 15 &&
               row !== 16 &&
-              row === 18 && (
+              row !== 18 &&
+              (row === 8 || row === 10 || row === 19 || row === 20) &&
+              !zeroOutBoxTyler && <>{tylerScore}</>}
+            {row !== 1 &&
+              row !== 9 &&
+              row !== 13 &&
+              row !== 14 &&
+              row !== 15 &&
+              row !== 16 &&
+              row === 18 &&
+              !zeroOutBoxTyler && (
                 <div
                   onClick={() => handleBonusYahtzee("Tyler")}
                   className="bonus-yahtzee-container"
@@ -176,37 +266,77 @@ const YahtzeeRow = (props: GameType) => {
         <div className="yahtzee-row-player">
           <>
             {rowTitle === "UPPER" && "SAM"}
+            {row !== 9 &&
+              row !== 13 &&
+              row !== 14 &&
+              row !== 15 &&
+              row !== 16 &&
+              zeroOutBoxSam && (
+                <button
+                  onClick={() => handleModal("Sam")}
+                  className="yahtzee-check-button zero-out"
+                >
+                  <GrFormClose />
+                </button>
+              )}
             {(row === 9 ||
               row === 13 ||
               row === 14 ||
               row === 15 ||
               row === 16) && (
               <>
-                {samScore === false && (
-                  <button
-                    onClick={() => handleButtonScoreUpdate("Sam")}
-                    className="yahtzee-check-button"
-                  >
-                    <BsCheckLg />
-                  </button>
+                {!zeroOutBoxSam && (
+                  <>
+                    {samScore === false && (
+                      <button
+                        onClick={() =>
+                          handleButtonScoreUpdate("Sam", "incomplete")
+                        }
+                        className="yahtzee-check-button"
+                      >
+                        <BsCheckLg />
+                      </button>
+                    )}
+                    {samScore && (
+                      <button
+                        onClick={() =>
+                          handleButtonScoreUpdate("Sam", "complete")
+                        }
+                        className="yahtzee-check-button complete"
+                      >
+                        {samScore}
+                      </button>
+                    )}
+                  </>
                 )}
-                {samScore && (
-                  <button
-                    onClick={() => handleButtonScoreUpdate("Sam")}
-                    className="yahtzee-check-button complete"
-                  >
-                    {samScore}
-                  </button>
+                {zeroOutBoxSam && (
+                  <>
+                    {!samScore && (
+                      <button
+                        onClick={() =>
+                          handleButtonScoreUpdate("Sam", "zero out")
+                        }
+                        className="yahtzee-check-button zero-out"
+                      >
+                        <GrFormClose />
+                      </button>
+                    )}
+                  </>
                 )}
               </>
             )}
             {row !== 1 &&
+              row !== 8 &&
               row !== 9 &&
+              row !== 10 &&
               row !== 13 &&
               row !== 14 &&
               row !== 15 &&
               row !== 16 &&
-              row !== 18 && (
+              row !== 18 &&
+              row !== 19 &&
+              row !== 20 &&
+              !zeroOutBoxSam && (
                 <div onClick={() => handleModal("Sam")}>{samScore}</div>
               )}
             {row !== 1 &&
@@ -215,7 +345,17 @@ const YahtzeeRow = (props: GameType) => {
               row !== 14 &&
               row !== 15 &&
               row !== 16 &&
-              row === 18 && (
+              row !== 18 &&
+              (row === 8 || row === 10 || row === 19 || row === 20) &&
+              !zeroOutBoxSam && <>{samScore}</>}
+            {row !== 1 &&
+              row !== 9 &&
+              row !== 13 &&
+              row !== 14 &&
+              row !== 15 &&
+              row !== 16 &&
+              row === 18 &&
+              !zeroOutBoxSam && (
                 <div
                   onClick={() => handleBonusYahtzee("Sam")}
                   className="bonus-yahtzee-container"
@@ -257,6 +397,8 @@ const YahtzeeRow = (props: GameType) => {
         <YahtzeeScoreModal
           handleModalScoreChange={handleModalScoreChange}
           title={rowTitle}
+          currentPlayer={currentPlayer}
+          currentScore={playerScore}
         />
       )}
     </>

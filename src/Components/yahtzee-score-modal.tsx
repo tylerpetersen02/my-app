@@ -2,34 +2,57 @@ import React, { useState } from "react";
 import "./yahtzee-score-modal.css";
 
 type ScoreModalProps = {
-  handleModalScoreChange: (score: number) => void;
+  handleModalScoreChange: (score: number, zeroOut: boolean) => void;
   title: string;
+  currentPlayer: string;
+  currentScore: number | boolean;
 };
 
 const YahtzeeScoreModal = (props: ScoreModalProps) => {
-  const { handleModalScoreChange, title } = props;
+  const { handleModalScoreChange, title, currentPlayer, currentScore } = props;
   const [playerScore, setPlayerScore] = useState<number>(0);
+  const [scoreChange, setScoreChange] = useState<boolean>(false);
 
   const handleChangeScore = (e: React.FormEvent<HTMLInputElement>) => {
+    console.log("THIS ONE ", parseFloat(e.currentTarget.value));
     setPlayerScore(parseFloat(e.currentTarget.value));
+    setScoreChange(true);
   };
-  const closeModal = () => {
-    handleModalScoreChange(playerScore);
+  const closeModal = (zeroOut: boolean) => {
+    if (playerScore !== currentScore && scoreChange) {
+      handleModalScoreChange(playerScore, zeroOut);
+    } else {
+      if (typeof currentScore === "number")
+        handleModalScoreChange(currentScore, zeroOut);
+    }
   };
   return (
     <div className="score-round-modal-container">
       <div className="score-round-modal">
-        <span className="modal-title">{title} Score:</span>
+        <span className="modal-title">
+          {currentPlayer} {title} Score:
+        </span>
         <input
           className="modal-input-box"
           type="number"
-          placeholder="0"
+          placeholder={currentScore.toString()}
           value={undefined}
           onChange={(e) => handleChangeScore(e)}
         />
-        <button className="modal-submit-button" onClick={closeModal}>
-          Submit
-        </button>
+        <div className="modal-button-container">
+          <button
+            className="modal-submit-button"
+            onClick={() => closeModal(false)}
+          >
+            Submit
+          </button>
+          <button
+            className="modal-zero-out-button"
+            onClick={() => closeModal(true)}
+          >
+            Zero Out
+          </button>
+        </div>
       </div>
     </div>
   );
