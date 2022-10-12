@@ -44,16 +44,16 @@ const YahtzeeScoreModal = (props: ScoreModalProps) => {
         />
         <div className="modal-button-container">
           <button
-            className="modal-submit-button"
-            onClick={() => closeModal(false)}
-          >
-            Submit
-          </button>
-          <button
             className="modal-zero-out-button"
             onClick={() => closeModal(true)}
           >
             Zero
+          </button>
+          <button
+            className="modal-submit-button"
+            onClick={() => closeModal(false)}
+          >
+            Submit
           </button>
         </div>
       </div>

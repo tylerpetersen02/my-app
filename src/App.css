@@ -41,6 +41,13 @@ h3 {
   margin: 0px 0px 20px 0px;
 }
 
+hr {
+  width: 95%;
+  border: 1px solid #fff;
+  opacity: 0.1;
+  margin: 0 auto;
+}
+
 .hr-scorebox {
   width: 80%;
   border: 1px solid rgba(0, 0, 0, 0.2);
