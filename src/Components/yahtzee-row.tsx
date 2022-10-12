@@ -145,12 +145,12 @@ const YahtzeeRow = (props: GameType) => {
               row !== 15 &&
               row !== 16 &&
               zeroOutBoxTyler && (
-                <button
+                <div
                   onClick={() => handleModal("Tyler")}
                   className="yahtzee-check-button zero-out"
                 >
                   <GrClose style={{ fontSize: "20px" }} />
-                </button>
+                </div>
               )}
             {(row === 9 ||
               row === 13 ||
@@ -161,38 +161,38 @@ const YahtzeeRow = (props: GameType) => {
                 {!zeroOutBoxTyler && (
                   <>
                     {tylerScore === false && (
-                      <button
+                      <div
                         onClick={() =>
                           handleButtonScoreUpdate("Tyler", "incomplete")
                         }
                         className="yahtzee-check-button"
                       >
                         <BsCheckLg />
-                      </button>
+                      </div>
                     )}
                     {tylerScore && (
-                      <button
+                      <div
                         onClick={() =>
                           handleButtonScoreUpdate("Tyler", "complete")
                         }
                         className="yahtzee-check-button complete"
                       >
                         {tylerScore}
-                      </button>
+                      </div>
                     )}
                   </>
                 )}
                 {zeroOutBoxTyler && (
                   <>
                     {!tylerScore && (
-                      <button
+                      <div
                         onClick={() =>
                           handleButtonScoreUpdate("Tyler", "zero out")
                         }
                         className="yahtzee-check-button zero-out"
                       >
                         <GrClose />
-                      </button>
+                      </div>
                     )}
                   </>
                 )}
@@ -285,12 +285,12 @@ const YahtzeeRow = (props: GameType) => {
               row !== 15 &&
               row !== 16 &&
               zeroOutBoxSam && (
-                <button
+                <div
                   onClick={() => handleModal("Sam")}
                   className="yahtzee-check-button zero-out"
                 >
                   <GrClose />
-                </button>
+                </div>
               )}
             {(row === 9 ||
               row === 13 ||
@@ -301,38 +301,38 @@ const YahtzeeRow = (props: GameType) => {
                 {!zeroOutBoxSam && (
                   <>
                     {samScore === false && (
-                      <button
+                      <div
                         onClick={() =>
                           handleButtonScoreUpdate("Sam", "incomplete")
                         }
                         className="yahtzee-check-button"
                       >
                         <BsCheckLg />
-                      </button>
+                      </div>
                     )}
                     {samScore && (
-                      <button
+                      <div
                         onClick={() =>
                           handleButtonScoreUpdate("Sam", "complete")
                         }
                         className="yahtzee-check-button complete"
                       >
                         {samScore}
-                      </button>
+                      </div>
                     )}
                   </>
                 )}
                 {zeroOutBoxSam && (
                   <>
                     {!samScore && (
-                      <button
+                      <div
                         onClick={() =>
                           handleButtonScoreUpdate("Sam", "zero out")
                         }
                         className="yahtzee-check-button zero-out"
                       >
                         <GrClose />
-                      </button>
+                      </div>
                     )}
                   </>
                 )}

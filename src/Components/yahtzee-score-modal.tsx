@@ -53,7 +53,7 @@ const YahtzeeScoreModal = (props: ScoreModalProps) => {
             className="modal-zero-out-button"
             onClick={() => closeModal(true)}
           >
-            Zero Out
+            Zero
           </button>
         </div>
       </div>
