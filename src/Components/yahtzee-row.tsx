@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./../App.css";
 import "./yahtzee-row.css";
 import { BsCheckLg } from "react-icons/bs";
-import { GrFormClose } from "react-icons/gr";
+import { GrClose } from "react-icons/gr";
 import YahtzeeScoreModal from "./yahtzee-score-modal";
 
 type GameType = {
@@ -62,6 +62,8 @@ const YahtzeeRow = (props: GameType) => {
       currentPlayer === "Tyler"
         ? setTylerRoundScore(score)
         : setSamRoundScore(score);
+    } else {
+      currentPlayer === "Tyler" ? setTylerRoundScore(0) : setSamRoundScore(0);
     }
     currentPlayer === "Tyler"
       ? setZeroOutBoxTyler(zeroOut)
@@ -147,7 +149,7 @@ const YahtzeeRow = (props: GameType) => {
                   onClick={() => handleModal("Tyler")}
                   className="yahtzee-check-button zero-out"
                 >
-                  <GrFormClose />
+                  <GrClose style={{ fontSize: "20px" }} />
                 </button>
               )}
             {(row === 9 ||
@@ -189,7 +191,7 @@ const YahtzeeRow = (props: GameType) => {
                         }
                         className="yahtzee-check-button zero-out"
                       >
-                        <GrFormClose />
+                        <GrClose />
                       </button>
                     )}
                   </>
@@ -206,9 +208,20 @@ const YahtzeeRow = (props: GameType) => {
               row !== 16 &&
               row !== 18 &&
               row !== 19 &&
-              row !== 20 &&
-              !zeroOutBoxTyler && (
-                <div onClick={() => handleModal("Tyler")}>{tylerScore}</div>
+              row !== 20 && (
+                <>
+                  {!zeroOutBoxTyler && tylerScore === 0 && (
+                    <div onClick={() => handleModal("Tyler")}>{tylerScore}</div>
+                  )}
+                  {!zeroOutBoxTyler && tylerScore !== 0 && (
+                    <div
+                      className="yahtzee-check-button complete"
+                      onClick={() => handleModal("Tyler")}
+                    >
+                      {tylerScore}
+                    </div>
+                  )}
+                </>
               )}
             {row !== 1 &&
               row !== 9 &&
@@ -276,7 +289,7 @@ const YahtzeeRow = (props: GameType) => {
                   onClick={() => handleModal("Sam")}
                   className="yahtzee-check-button zero-out"
                 >
-                  <GrFormClose />
+                  <GrClose />
                 </button>
               )}
             {(row === 9 ||
@@ -318,7 +331,7 @@ const YahtzeeRow = (props: GameType) => {
                         }
                         className="yahtzee-check-button zero-out"
                       >
-                        <GrFormClose />
+                        <GrClose />
                       </button>
                     )}
                   </>
@@ -335,9 +348,20 @@ const YahtzeeRow = (props: GameType) => {
               row !== 16 &&
               row !== 18 &&
               row !== 19 &&
-              row !== 20 &&
-              !zeroOutBoxSam && (
-                <div onClick={() => handleModal("Sam")}>{samScore}</div>
+              row !== 20 && (
+                <>
+                  {!zeroOutBoxSam && samScore === 0 && (
+                    <div onClick={() => handleModal("Sam")}>{samScore}</div>
+                  )}
+                  {!zeroOutBoxSam && samScore !== 0 && (
+                    <div
+                      className="yahtzee-check-button complete"
+                      onClick={() => handleModal("Sam")}
+                    >
+                      {samScore}
+                    </div>
+                  )}
+                </>
               )}
             {row !== 1 &&
               row !== 9 &&

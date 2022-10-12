@@ -15,7 +15,6 @@ type GameType = {
 };
 
 const YahtzeeScoreboard = (props: GameType) => {
-  const { game } = props;
   const [tylerAces, setTylerAces] = useState<number>(0);
   const [tylerTwos, setTylerTwos] = useState<number>(0);
   const [tylerThrees, setTylerThrees] = useState<number>(0);

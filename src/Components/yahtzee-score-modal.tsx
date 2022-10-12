@@ -14,11 +14,14 @@ const YahtzeeScoreModal = (props: ScoreModalProps) => {
   const [scoreChange, setScoreChange] = useState<boolean>(false);
 
   const handleChangeScore = (e: React.FormEvent<HTMLInputElement>) => {
-    console.log("THIS ONE ", parseFloat(e.currentTarget.value));
     setPlayerScore(parseFloat(e.currentTarget.value));
     setScoreChange(true);
   };
   const closeModal = (zeroOut: boolean) => {
+    if (zeroOut) {
+      handleModalScoreChange(0, zeroOut);
+      return;
+    }
     if (playerScore !== currentScore && scoreChange) {
       handleModalScoreChange(playerScore, zeroOut);
     } else {
