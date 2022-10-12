@@ -23,10 +23,52 @@
   padding: 3px 0px 5px;
 }
 
+.score-total-yahtzee {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  font-size: xx-large;
+  background-color: #ef476f;
+  width: 100%;
+  margin: 10px 0px;
+  border-radius: 5px;
+  border-bottom: 4px solid #06d6a0;
+  border-right: 4px solid #06d6a0;
+  border-bottom-right-radius: 0px;
+  padding: 2px 0px 5px 0px;
+}
+
+.score-total-values {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  color: #fff;
+}
+
+.yahtzee-total-score {
+  display: flex;
+  justify-content: center;
+  width: 40%;
+  font-size: 2.2rem;
+  margin-bottom: 5px;
+}
+
 .score-total-names {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
+  width: 100%;
   color: #fff;
+}
+
+.yahtzee-score-name {
+  display: flex;
+  justify-content: center;
+  width: 40%;
+  font-size: large;
 }

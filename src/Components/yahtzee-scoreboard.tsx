@@ -510,13 +510,15 @@ const YahtzeeScoreboard = (props: GameType) => {
           />
         </div>
       </div>
-      <div className="score-total">
-        <div className="total-score-tyler">{tylerTotalScore}</div>
-        <div className="total-score-sam">{samTotalScore}</div>
-      </div>
-      <div className="score-total-names">
-        <span>Tyler</span>
-        <span>Sam</span>
+      <div className="score-total-yahtzee">
+        <div className="score-total-values">
+          <div className="yahtzee-total-score">{tylerTotalScore}</div>
+          <div className="yahtzee-total-score">{samTotalScore}</div>
+        </div>
+        <div className="score-total-names">
+          <div className="yahtzee-score-name">Tyler</div>
+          <div className="yahtzee-score-name">Sam</div>
+        </div>
       </div>
     </div>
   );
