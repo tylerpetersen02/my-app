@@ -4,6 +4,8 @@
 /node_modules
 /.pnp
 .pnp.js
+/Sam/samconfig.toml
+/src/aws-exports.js
 
 # testing
 /coverage

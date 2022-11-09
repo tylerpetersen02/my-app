@@ -4,6 +4,7 @@ import "./yahtzee-row.css";
 import { BsCheckLg } from "react-icons/bs";
 import { GrClose } from "react-icons/gr";
 import YahtzeeScoreModal from "./yahtzee-score-modal";
+import YahtzeeScoreModalTop from "./yahtzee-score-modal-top";
 
 type GameType = {
   game: string;
@@ -417,12 +418,21 @@ const YahtzeeRow = (props: GameType) => {
           </>
         </div>
       </div>
-      {modal && (
+      {modal && row > 7 && (
         <YahtzeeScoreModal
           handleModalScoreChange={handleModalScoreChange}
           title={rowTitle}
           currentPlayer={currentPlayer}
           currentScore={playerScore}
+        />
+      )}
+      {modal && row <= 7 && (
+        <YahtzeeScoreModalTop
+          handleModalScoreChange={handleModalScoreChange}
+          title={rowTitle}
+          currentPlayer={currentPlayer}
+          currentScore={playerScore}
+          row={row}
         />
       )}
     </>

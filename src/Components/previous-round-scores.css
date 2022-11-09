@@ -1,0 +1,15 @@
+.prev-score-row {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  width: 90%;
+  margin: 3px;
+}
+
+.prev-score-row-name {
+  width: 15%;
+}
+
+.prev-score-row-value {
+  width: 8%;
+}

@@ -1,0 +1,139 @@
+.score-round-modal-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+}
+
+.score-round-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 75%;
+  z-index: 10 !important;
+  border: none;
+  border-radius: 5px;
+  background-color: white;
+  opacity: 1;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+  animation-duration: 0.1s;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffd166;
+  border-right: 6px solid #ef476f;
+  border-bottom: 6px solid #ef476f;
+  border-radius: 5px;
+  padding: 30px 0px;
+}
+
+@keyframes fadeInOpacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.modal-title {
+  margin: 10px;
+  font-size: 2em;
+  color: #073b4c;
+}
+
+.modal-input-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 60px;
+  height: 50px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  font-size: xx-large;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #073b4c;
+}
+
+input:focus::placeholder {
+  color: transparent;
+}
+
+input:focus {
+  outline: none;
+}
+
+.modal-button-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 80%;
+}
+
+.modal-submit-button {
+  height: 50px;
+  width: 50%;
+  border: none;
+  border-radius: 5px;
+  background-color: #06d6a0;
+  border-right: 4px solid #ef476f;
+  border-bottom: 4px solid #ef476f;
+  font-size: large;
+  font-weight: 600;
+  color: #fff;
+}
+
+.modal-zero-out-button {
+  height: 50px;
+  width: 50%;
+  border: none;
+  border-radius: 5px;
+  background-color: #ef476f;
+  border-right: 4px solid #06d6a0;
+  border-bottom: 4px solid #06d6a0;
+  font-size: large;
+  font-weight: 600;
+  color: #fff;
+}
+
+.modal-dice-amounts-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 5px 0px;
+}
+
+.modal-dice-amount {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  width: 80px;
+  border-radius: 5px;
+  background-color: #06d6a0;
+  border-right: 4px solid #ef476f;
+  border-bottom: 4px solid #ef476f;
+  color: #073b4c;
+  font-size: 2.5em;
+  font-weight:bolder;
+}
+
+.zero {
+  background-color: #ef476f;
+  border-right: 4px solid #06d6a0;
+  border-bottom: 4px solid #06d6a0;
+  color: white;
+}

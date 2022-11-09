@@ -1,0 +1,217 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: GraphQL API Template
+Transform:
+- AWS::Serverless-2016-10-31
+Globals:
+  Function:
+    Timeout: 5
+    Runtime: nodejs14.x
+    Handler: index.handler
+    Tracing: Active
+Parameters:
+  projectName:
+    Type: String
+    Description: Provide the name of the project.
+  RDSUsername:
+    AllowedPattern: ^[a-zA-Z][a-zA-Z0-9]*$
+    Type: String
+    Description: The username to be used in the RDS connection.
+    MinLength: 1
+    MaxLength: 30
+  RDSPassword:
+    AllowedPattern: ^[a-zA-Z0-9]+$
+    ConstraintDescription: Must be between 8 to 30 alphanumeric characters.
+    Type: String
+    Description: The password to be used in the RDS connection.
+    MinLength: 8
+    MaxLength: 30
+Resources:
+  AWSAppSyncRDSGraphQLApi:
+    Type: AWS::AppSync::GraphQLApi
+    Properties:
+      Name:
+        Fn::Sub: ${projectName}_GraphQLApi
+      AuthenticationType: API_KEY
+  ApiKey:
+    Type: AWS::AppSync::ApiKey
+    Properties:
+      ApiId:
+        Fn::GetAtt:
+        - AWSAppSyncRDSGraphQLApi
+        - ApiId
+      Description: The Api Key for the AppSync Api
+  AWSAppSyncRDSSecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: Generates a new secret for DB Cluster
+      Name:
+        Fn::Sub: ${projectName}_Secret
+      SecretString:
+        Fn::Sub: '{"username":"${RDSUsername}","password":"${RDSPassword}"}'
+  AWSAppSyncRDSCluster:
+    Type: AWS::RDS::DBCluster
+    Properties:
+      MasterUsername:
+        Fn::Sub: ${RDSUsername}
+      MasterUserPassword:
+        Fn::Sub: ${RDSPassword}
+      DatabaseName:
+        Fn::Sub: ${projectName}_Database
+      Engine: aurora
+      EngineMode: serverless
+      DBClusterIdentifier:
+        Fn::Sub: ${projectName}-cluster
+      EnableHttpEndpoint: true
+      SourceRegion:
+        Fn::Sub: ${AWS::Region}
+  AWSAppSyncRDSDBClusterParameterGroup:
+    Type: AWS::RDS::DBClusterParameterGroup
+    Properties:
+      Description: CloudFormation Aurora Cluster Parameter Group
+      Family: aurora-mysql5.7
+      Parameters:
+        time_zone: US/Eastern
+        character_set_database: utf32
+  AWSAppSyncRDSAttachSecret:
+    Type: AWS::SecretsManager::SecretTargetAttachment
+    Properties:
+      SecretId:
+        Ref: AWSAppSyncRDSSecret
+      TargetId:
+        Ref: AWSAppSyncRDSCluster
+      TargetType: AWS::RDS::DBCluster
+  AWSAppSyncRDSServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName:
+        Fn::Sub: ${projectName}_Role
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: appsync.amazonaws.com
+          Action:
+          - sts:AssumeRole
+  AWSAppSyncRDSPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName:
+        Fn::Sub: ${projectName}_Policy
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Action:
+          - rds-data:*
+          Resource:
+          - Fn::Sub: arn:${AWS::Partition}:rds:${AWS::Region}:${AWS::AccountId}:cluster:${AWSAppSyncRDSCluster}
+          - Fn::Sub: arn:${AWS::Partition}:rds:${AWS::Region}:${AWS::AccountId}:cluster:${AWSAppSyncRDSCluster}:*
+        - Effect: Allow
+          Action:
+          - secretsmanager:GetSecretValue
+          Resource:
+          - Ref: AWSAppSyncRDSSecret
+          - Fn::Sub: ${AWSAppSyncRDSSecret}:*
+      Roles:
+      - Ref: AWSAppSyncRDSServiceRole
+  AWSAppSyncRDSDataSource:
+    Type: AWS::AppSync::DataSource
+    DependsOn:
+    - AWSAppSyncRDSGraphQLApi
+    Properties:
+      ApiId:
+        Fn::GetAtt:
+        - AWSAppSyncRDSGraphQLApi
+        - ApiId
+      Name:
+        Fn::Sub: ${projectName}_DataSource
+      Type: RELATIONAL_DATABASE
+      ServiceRoleArn:
+        Fn::GetAtt:
+        - AWSAppSyncRDSServiceRole
+        - Arn
+      RelationalDatabaseConfig:
+        RelationalDatabaseSourceType: RDS_HTTP_ENDPOINT
+        RdsHttpEndpointConfig:
+          AwsRegion:
+            Fn::Sub: ${AWS::Region}
+          AwsSecretStoreArn:
+            Ref: AWSAppSyncRDSSecret
+          DatabaseName:
+            Fn::Sub: ${projectName}_Database
+          DbClusterIdentifier:
+            Fn::Sub: arn:${AWS::Partition}:rds:${AWS::Region}:${AWS::AccountId}:cluster:${AWSAppSyncRDSCluster}
+  GraphQLSchema:
+    Type: AWS::AppSync::GraphQLSchema
+    Properties:
+      ApiId:
+        Fn::GetAtt:
+        - AWSAppSyncRDSGraphQLApi
+        - ApiId
+      DefinitionS3Location: ..\..\schema.graphql
+  QueryTemplateReference:
+    DependsOn: GraphQLSchema
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: QueryTemplateReference\template.yaml
+      Parameters:
+        ApiId:
+          Fn::GetAtt:
+          - AWSAppSyncRDSGraphQLApi
+          - ApiId
+        DataSourceName:
+          Fn::GetAtt:
+          - AWSAppSyncRDSDataSource
+          - Name
+        DatabaseName:
+          Fn::Sub: ${projectName}_Database
+        Environment:
+          Fn::Sub: ${projectName}
+        SecretArn:
+          Ref: AWSAppSyncRDSSecret
+        ClusterName:
+          Ref: AWSAppSyncRDSCluster
+    Metadata:
+      SamResourceId: QueryTemplateReference
+  MutationTemplateReference:
+    DependsOn: GraphQLSchema
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: MutationTemplateReference\template.yaml
+      Parameters:
+        Environment:
+          Fn::Sub: ${projectName}
+        DatabaseName:
+          Fn::Sub: ${projectName}_Database
+        SecretArn:
+          Ref: AWSAppSyncRDSSecret
+        ClusterName:
+          Ref: AWSAppSyncRDSCluster
+        ApiId:
+          Fn::GetAtt:
+          - AWSAppSyncRDSGraphQLApi
+          - ApiId
+        DataSourceName:
+          Fn::GetAtt:
+          - AWSAppSyncRDSDataSource
+          - Name
+    Metadata:
+      SamResourceId: MutationTemplateReference
+Outputs:
+  ApiUrl:
+    Description: The GraphQL endpoint
+    Value:
+      Fn::GetAtt:
+      - AWSAppSyncRDSGraphQLApi
+      - GraphQLUrl
+  ApiKey:
+    Description: The API key
+    Value:
+      Fn::GetAtt:
+      - ApiKey
+      - ApiKey
+  DatabaseName:
+    Description: The database name
+    Value:
+      Fn::Sub: ${projectName}_Database

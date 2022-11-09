@@ -1,0 +1,125 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  Resolver Declaration Proxy Template
+
+Parameters:
+  ApiId:
+    Type: String
+    Description: The API ID
+  DataSourceName:
+    Type: String
+    Description: The data source name
+  Environment:
+    Type: String
+    Description: The current project name, environment, and branch (ex. proj_stage_main)
+  SecretArn:
+    Type: String
+    Description: The secret for AppSync API access
+  DatabaseName:
+    Type: String
+    Description: The main database name
+  ClusterName:
+    Type: String
+    Description: The cluster name (all data sources)
+
+Resources:
+  QueryRDSRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      Path: /service-role/
+      RoleName: !Sub ${Environment}_Query_RDS_Role
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+                - appsync.amazonaws.com
+            Action:
+              - "sts:AssumeRole"
+
+  QueryRDSPolicy:
+    Type: "AWS::IAM::Policy"
+    Properties:
+      PolicyName: !Sub ${Environment}_Query_RDS_Policy
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - "logs:CreateLogStream"
+              - "logs:PutLogEvents"
+              - "lambda:InvokeFunction"
+              - "logs:CreateLogGroup"
+            Resource: "*"
+          - Effect: Allow
+            Action:
+              - rds-data:*
+            Resource: "*"
+          - Effect: Allow
+            Action:
+              - "secretsmanager:GetSecretValue"
+            Resource:
+              - !Ref SecretArn
+      Roles:
+        - !Ref QueryRDSRole
+
+  # GET PLAYER TOTAL WINS
+  GetPlayerTotalWinsFunction:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      FunctionName: !Sub ${Environment}_Player_Total_Wins
+      Runtime: nodejs14.x
+      Role: !GetAtt QueryRDSRole.Arn
+      Handler: player-total-wins.handler
+      Code: ./Player_Total_Wins
+      Environment:
+        Variables:
+          DATABASENAME: !Ref DatabaseName
+          SECRETARN: !Ref SecretArn
+          CLUSTERARN: !Sub "arn:${AWS::Partition}:rds:${AWS::Region}:${AWS::AccountId}:cluster:${ClusterName}"
+
+  GetPlayerTotalWinsDataSource:
+    Type: "AWS::AppSync::DataSource"
+    Properties:
+      ApiId: !Ref ApiId
+      Name: !Sub ${Environment}_Lambda_Player_Total_Wins
+      Type: AWS_LAMBDA
+      ServiceRoleArn: !GetAtt QueryRDSRole.Arn
+      LambdaConfig:
+        LambdaFunctionArn: !GetAtt GetPlayerTotalWinsFunction.Arn
+
+  GetPlayerTotalWinsPipeline:
+    Type: "AWS::AppSync::Resolver"
+    Properties:
+      ApiId: !Ref ApiId
+      TypeName: "Query"
+      FieldName: "getPlayerTotalWins"
+      Kind: "PIPELINE"
+      PipelineConfig:
+        Functions:
+          - !GetAtt GetPlayerTotalWins.FunctionId
+      RequestMappingTemplateS3Location: ./Player_Total_Wins/before.vtl
+      ResponseMappingTemplateS3Location: ./Player_Total_Wins/after.vtl
+
+  GetPlayerTotalWins:
+    Type: "AWS::AppSync::FunctionConfiguration"
+    Properties:
+      ApiId: !Ref ApiId
+      Name: "Get_Player_Total_Wins"
+      Description: "Retrieves total game wins for player"
+      DataSourceName: !GetAtt GetPlayerTotalWinsDataSource.Name
+      FunctionVersion: "2018-05-29"
+      RequestMappingTemplateS3Location: ./Player_Total_Wins/request.vtl
+      ResponseMappingTemplateS3Location: ./Player_Total_Wins/response.vtl
+
+  GetAllScores:
+    Type: "AWS::AppSync::Resolver"
+    Properties:
+      ApiId: !Ref ApiId
+      TypeName: "Query"
+      FieldName: "allScores"
+      DataSourceName: !Ref DataSourceName
+      RequestMappingTemplateS3Location: ./All_Scores/request.vtl
+      ResponseMappingTemplateS3Location: ./All_Scores/response.vtl

@@ -1,0 +1,99 @@
+type Player {
+  id: ID!
+  name: String!
+}
+
+input getPlayerTotalWins {
+  player_id: Int!
+}
+
+input updateGameWinsInput {
+  player_id: Int!
+  game_type: String!
+  game_total_score: Int!
+}
+
+input updateTotalWinsInput {
+  player_id: Int!
+  total_wins: Int!
+}
+
+type TotalWins {
+  id: ID!
+  player_id: Int!
+  golf: Int!
+  yahtzee: Int!
+  blokus: Int!
+  patchwork: Int!
+  fox_in_the_forest: Int!
+  chess: Int!
+  hive: Int!
+  total: Int!
+}
+
+input getGameScores {
+  player_id: Int!
+}
+
+input addScoresInput {
+  game_type: String!
+  overall_round: Int!
+  tyler_round_one: Int!
+  tyler_round_two: Int!
+  tyler_round_three: Int!
+  tyler_round_four: Int
+  tyler_round_five: Int
+  tyler_round_six: Int
+  tyler_round_seven: Int
+  tyler_round_eight: Int
+  tyler_round_nine: Int
+  tyler_total_round_score: Int!
+  tyler_comments: String
+  sam_round_one: Int!
+  sam_round_two: Int!
+  sam_round_three: Int!
+  sam_round_four: Int
+  sam_round_five: Int
+  sam_round_six: Int
+  sam_round_seven: Int
+  sam_round_eight: Int
+  sam_round_nine: Int
+  sam_total_round_score: Int!
+  sam_comments: String
+}
+
+type GameScores {
+  id: ID!
+  player_id: Int!
+  game_type: String!
+  overall_round: Int!
+  round_one: Int!
+  round_two: Int!
+  round_three: Int!
+  round_four: Int!
+  round_five: Int!
+  round_six: Int!
+  round_seven: Int!
+  round_eight: Int!
+  round_nine: Int!
+  total_round_score: Int!
+  comments: String
+  created_timestamp: String!
+}
+
+type Mutation {
+  addScores(input: addScoresInput!): GameScores
+  updateGameWins(input: updateGameWinsInput!): GameScores
+  updateTotalWins(input: updateTotalWinsInput!): GameScores
+}
+
+type Query {
+  allScores: [GameScores]
+  getPlayerTotalWins(input: getPlayerTotalWins!): TotalWins
+  getGameScores(input: getGameScores!): GameScores
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}

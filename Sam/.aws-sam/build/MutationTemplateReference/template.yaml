@@ -1,0 +1,132 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Resolver Declaration Proxy Template
+Parameters:
+  ApiId:
+    Type: String
+    Description: The API ID
+  DataSourceName:
+    Type: String
+    Description: The data source name
+  Environment:
+    Type: String
+    Description: The current project name, environment, and branch (ex. proj_stage_main)
+  SecretArn:
+    Type: String
+    Description: The secret for AppSync API access
+  DatabaseName:
+    Type: String
+    Description: The main database name
+  ClusterName:
+    Type: String
+    Description: The cluster name (all data sources)
+Resources:
+  MutationRDSRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /service-role/
+      RoleName:
+        Fn::Sub: ${Environment}_Mutation_RDS_Role
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+            - appsync.amazonaws.com
+          Action:
+          - sts:AssumeRole
+  MutationRDSPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName:
+        Fn::Sub: ${Environment}_Mutation_RDS_Policy
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Action:
+          - logs:CreateLogStream
+          - logs:PutLogEvents
+          - lambda:InvokeFunction
+          - logs:CreateLogGroup
+          Resource: '*'
+        - Effect: Allow
+          Action:
+          - rds-data:*
+          Resource: '*'
+        - Effect: Allow
+          Action:
+          - secretsmanager:GetSecretValue
+          Resource:
+          - Ref: SecretArn
+      Roles:
+      - Ref: MutationRDSRole
+  AddScoresFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName:
+        Fn::Sub: ${Environment}_Add_Scores
+      Runtime: nodejs14.x
+      Role:
+        Fn::GetAtt:
+        - MutationRDSRole
+        - Arn
+      Handler: add-scores.handler
+      Code: AddScoresFunction
+      Environment:
+        Variables:
+          DATABASENAME:
+            Ref: DatabaseName
+          SECRETARN:
+            Ref: SecretArn
+          CLUSTERARN:
+            Fn::Sub: arn:${AWS::Partition}:rds:${AWS::Region}:${AWS::AccountId}:cluster:${ClusterName}
+    Metadata:
+      SamResourceId: AddScoresFunction
+  AddScoresDataSource:
+    Type: AWS::AppSync::DataSource
+    Properties:
+      ApiId:
+        Ref: ApiId
+      Name:
+        Fn::Sub: ${Environment}_Lambda_Add_Scores
+      Type: AWS_LAMBDA
+      ServiceRoleArn:
+        Fn::GetAtt:
+        - MutationRDSRole
+        - Arn
+      LambdaConfig:
+        LambdaFunctionArn:
+          Fn::GetAtt:
+          - AddScoresFunction
+          - Arn
+  AddScoresPipeline:
+    Type: AWS::AppSync::Resolver
+    Properties:
+      ApiId:
+        Ref: ApiId
+      TypeName: Mutation
+      FieldName: addScores
+      Kind: PIPELINE
+      PipelineConfig:
+        Functions:
+        - Fn::GetAtt:
+          - AddScores
+          - FunctionId
+      RequestMappingTemplateS3Location: ..\..\..\Resolvers\Mutations\Add_Scores\before.vtl
+      ResponseMappingTemplateS3Location: ..\..\..\Resolvers\Mutations\Add_Scores\after.vtl
+  AddScores:
+    Type: AWS::AppSync::FunctionConfiguration
+    Properties:
+      ApiId:
+        Ref: ApiId
+      Name: Add_Scores
+      Description: Adds player scores for all rounds of overall round for game type
+      DataSourceName:
+        Fn::GetAtt:
+        - AddScoresDataSource
+        - Name
+      FunctionVersion: '2018-05-29'
+      RequestMappingTemplateS3Location: ..\..\..\Resolvers\Mutations\Add_Scores\request.vtl
+      ResponseMappingTemplateS3Location: ..\..\..\Resolvers\Mutations\Add_Scores\response.vtl
